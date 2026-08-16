@@ -26,5 +26,5 @@ export function catalogUrl(): string {
   const base = import.meta.env.BASE_URL.endsWith("/")
     ? import.meta.env.BASE_URL
     : `${import.meta.env.BASE_URL}/`
-  return `${base}data/catalog.json`
+  return `${base}data/catalog.json?t=${Date.now()}`
 }

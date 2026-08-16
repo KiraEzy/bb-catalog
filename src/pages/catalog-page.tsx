@@ -19,7 +19,7 @@ export function CatalogPage() {
 
   useEffect(() => {
     let cancelled = false
-    fetch(catalogUrl())
+    fetch(catalogUrl(), { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) {
           throw new Error(`Catalog JSON returned ${response.status}`)
