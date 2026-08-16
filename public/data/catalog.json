@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "sources": [
+    {
+      "vendor": "tiger111hk",
+      "url": "https://airsoft.tiger111hk.com/daily_deals.php?currency=HKD&language=en",
+      "itemCount": 3
+    }
+  ],
+  "items": [
+    {
+      "id": "tiger111hk:39564",
+      "vendor": "tiger111hk",
+      "vendorProductId": "39564",
+      "sku": "AY-A0024-03",
+      "name": "AY SR-3M Vikhr AEG Alloy Top Cover (Black)",
+      "url": "https://airsoft.tiger111hk.com/p39564/AY-SR-3M-Vikhr-AEG-Alloy-Top-Cover-(Black)/product_info.html",
+      "imageUrl": "https://airsoft.tiger111hk.com/images/small_th_photo43/AY-A0024-03-1s.jpg",
+      "currency": "HKD",
+      "price": 74,
+      "originalPrice": 122,
+      "discountPercent": 39,
+      "categoryPath": "5_166_410",
+      "badges": []
+    },
+    {
+      "id": "tiger111hk:40511",
+      "vendor": "tiger111hk",
+      "vendorProductId": "40511",
+      "sku": "EMG-GBB-HUDSON-H9-FDE",
+      "name": "EMG Hudson H9 GBB Pistol (Dark Earth)",
+      "url": "https://airsoft.tiger111hk.com/p40511/EMG-Hudson-H9-GBB-Pistol-(Dark-Earth)/product_info.html",
+      "imageUrl": "https://airsoft.tiger111hk.com/images/small_th_photo43/EMG-GBB-HUDSON-H9-FDE-1s.jpg",
+      "currency": "HKD",
+      "price": 1097,
+      "originalPrice": 1287,
+      "discountPercent": 15,
+      "categoryPath": "3_458_488",
+      "badges": []
+    },
+    {
+      "id": "tiger111hk:49775",
+      "vendor": "tiger111hk",
+      "vendorProductId": "49775",
+      "sku": "PTS-PT181490307",
+      "name": "PTS ESP-QD Enhanced Sling Plate for GBB AR-15",
+      "url": "https://airsoft.tiger111hk.com/p49775/PTS-ESP-QD-Enhanced-Sling-Plate-for-GBB-AR-15/product_info.html",
+      "imageUrl": "https://airsoft.tiger111hk.com/images/small_th_photo46/PTS-PT181490307-1s.jpg",
+      "currency": "HKD",
+      "price": 191,
+      "originalPrice": 201,
+      "discountPercent": 5,
+      "categoryPath": "5_296",
+      "badges": ["hot"]
+    }
+  ]
+}
