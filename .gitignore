@@ -14,8 +14,10 @@ dist-ssr
 
 # Crawler session and debug dumps
 crawler/.chrome-profile
+crawler/.chrome-cdp
 crawler/last-failure.png
 crawler/last-html.html
+crawler/pages-preview.png
 
 # Editor directories and files
 .vscode/*

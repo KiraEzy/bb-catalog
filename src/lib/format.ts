@@ -28,3 +28,11 @@ export function catalogUrl(): string {
     : `${import.meta.env.BASE_URL}/`
   return `${base}data/catalog.json?t=${Date.now()}`
 }
+
+export function catalogImageUrl(imageUrl: string): string {
+  if (/^https?:\/\//i.test(imageUrl)) return imageUrl
+  const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`
+  return `${base}${imageUrl.replace(/^\//, "")}`
+}

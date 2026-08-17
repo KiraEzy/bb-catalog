@@ -9,15 +9,17 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "crawl": "tsx crawler/run.ts",
-    "crawl:headed": "tsx crawler/run.ts --headed",
+    "crawl:auto": "tsx crawler/run.ts --auto",
+    "crawl:headed": "tsx crawler/run.ts",
     "crawl:check": "tsx crawler/parse-check.ts",
     "publish": "tsx scripts/publish.ts",
-    "crawl-and-publish": "npm run crawl && npm run publish"
+    "crawl-and-publish": "npm run crawl:auto && npm run publish"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-virtual": "^3.14.9",
     "cheerio": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

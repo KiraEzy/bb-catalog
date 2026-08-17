@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import {
   flexRender,
   getCoreRowModel,
@@ -7,6 +7,7 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
+import { useVirtualizer } from "@tanstack/react-virtual"
 import { ArrowUpDown, ExternalLink } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -19,8 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { formatMoney } from "@/lib/format"
+import { catalogImageUrl, formatMoney } from "@/lib/format"
 import type { CatalogItem } from "@/types/catalog"
+
+const ROW_HEIGHT = 72
+const COLUMN_COUNT = 8
 
 type CatalogTableProps = {
   items: CatalogItem[]
@@ -43,6 +47,7 @@ function SortHeader({
 
 export function CatalogTable({ items }: CatalogTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const columns = useMemo<ColumnDef<CatalogItem>[]>(
     () => [
@@ -51,11 +56,14 @@ export function CatalogTable({ items }: CatalogTableProps) {
         header: "",
         cell: ({ row }) => (
           <img
-            src={row.original.imageUrl}
+            src={catalogImageUrl(row.original.imageUrl)}
             alt=""
             className="size-12 rounded-md object-cover bg-muted"
             loading="lazy"
-            referrerPolicy="no-referrer"
+            decoding="async"
+            onError={(event) => {
+              event.currentTarget.style.visibility = "hidden"
+            }}
           />
         ),
       },
@@ -148,11 +156,7 @@ export function CatalogTable({ items }: CatalogTableProps) {
         header: "",
         cell: ({ row }) => (
           <Button variant="outline" size="sm" asChild>
-            <a
-              href={row.original.url}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={row.original.url} target="_blank" rel="noreferrer">
               View
               <ExternalLink />
             </a>
@@ -172,6 +176,18 @@ export function CatalogTable({ items }: CatalogTableProps) {
     getSortedRowModel: getSortedRowModel(),
   })
 
+  const rows = table.getRowModel().rows
+  const virtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => ROW_HEIGHT,
+    overscan: 6,
+  })
+  const virtualRows = virtualizer.getVirtualItems()
+  const paddingTop = virtualRows[0]?.start ?? 0
+  const paddingBottom =
+    virtualizer.getTotalSize() - (virtualRows.at(-1)?.end ?? 0)
+
   if (items.length === 0) {
     return (
       <p className="py-12 text-center text-sm text-muted-foreground">
@@ -181,34 +197,52 @@ export function CatalogTable({ items }: CatalogTableProps) {
   }
 
   return (
-    <Table>
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <TableHead key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-              </TableHead>
-            ))}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div
+      ref={scrollRef}
+      className="relative max-h-[min(70vh,44rem)] overflow-auto"
+    >
+      <Table>
+        <TableHeader className="sticky top-0 z-10 bg-card">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {paddingTop > 0 ? (
+            <tr>
+              <td colSpan={COLUMN_COUNT} style={{ height: paddingTop }} />
+            </tr>
+          ) : null}
+          {virtualRows.map((virtualRow) => {
+            const row = rows[virtualRow.index]
+            return (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            )
+          })}
+          {paddingBottom > 0 ? (
+            <tr>
+              <td colSpan={COLUMN_COUNT} style={{ height: paddingBottom }} />
+            </tr>
+          ) : null}
+        </TableBody>
+      </Table>
+    </div>
   )
 }

@@ -14,4 +14,5 @@ $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoi
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings -Force | Out-Null
 Write-Output "Registered scheduled task '$taskName' daily at $Time"
 Write-Output "Working directory: $projectRoot"
-Write-Output "If Cloudflare blocks headless runs, run 'npm run crawl:headed' once, then leave crawler/storage-state.json in place."
+Write-Output "First run 'npm run crawl' interactively and pass Cloudflare in the debug Chrome window."
+Write-Output "Later auto runs reuse crawler\.chrome-cdp. If Chrome is already using that profile, close it before the task starts."

@@ -16,10 +16,10 @@ function hasRemote(): boolean {
 }
 
 function main() {
-  run("git add public/data/catalog.json")
+  run("git add public/data/catalog.json public/thumbs")
   const staged = run("git diff --cached --name-only")
-  if (!staged.includes("catalog.json")) {
-    console.log("No catalog.json changes to publish.")
+  if (!staged.includes("catalog.json") && !staged.includes("thumbs")) {
+    console.log("No catalog.json or thumbnail changes to publish.")
     return
   }
 
